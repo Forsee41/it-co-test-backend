@@ -59,5 +59,6 @@ async def delete_project(db: AsyncSession, id: UUID):
     stmt = delete(ProjectDB).where(ProjectDB.id == id).returning(ProjectDB.id)
     async with db as session:
         scalars = await session.scalars(stmt)
-        if scalars.first() is not None:
+        await session.commit()
+        if scalars.first() is None:
             raise ProjectNotFound()
