@@ -1,4 +1,3 @@
-from typing import Type
 from uuid import UUID
 
 from sqlalchemy import delete, select
@@ -11,22 +10,22 @@ class ProjectNotFound(Exception):
     """Raised when a project with chosen ID is not present in DB"""
 
 
-async def get_all_projects(db: Type[AsyncSession]) -> list[ProjectDB]:
+async def get_all_projects(db: AsyncSession) -> list[ProjectDB]:
     stmt = select(ProjectDB)
-    async with db() as session:
+    async with db as session:
         scalars = await session.scalars(stmt)
     return list(scalars.all())
 
 
 async def patch_project(
-    db: Type[AsyncSession],
+    db: AsyncSession,
     id: UUID,
     image: str | None = None,
     description: str | None = None,
-    title: str | None = None,
+    name: str | None = None,
 ) -> ProjectDB:
     stmt = select(ProjectDB).where(ProjectDB.id == id)
-    async with db() as session:
+    async with db as session:
         scalars = await session.scalars(stmt)
         project = scalars.first()
 
@@ -37,8 +36,8 @@ async def patch_project(
             project.image = image
         if description:
             project.description = description
-        if title:
-            project.title = title
+        if name:
+            project.name = name
 
         session.add(project)
         await session.commit()
@@ -46,19 +45,19 @@ async def patch_project(
 
 
 async def add_project(
-    db: Type[AsyncSession], image: str, description: str, title: str
+    db: AsyncSession, image: str, description: str, name: str
 ) -> ProjectDB:
-    async with db() as session:
-        project = ProjectDB(image=image, description=description, title=title)
+    async with db as session:
+        project = ProjectDB(image=image, description=description, name=name)
         session.add(project)
         await session.commit()
         await session.refresh(project)
     return project
 
 
-async def delete_project(db: Type[AsyncSession], id: UUID):
+async def delete_project(db: AsyncSession, id: UUID):
     stmt = delete(ProjectDB).where(ProjectDB.id == id).returning(ProjectDB.id)
-    async with db() as session:
+    async with db as session:
         scalars = await session.scalars(stmt)
         if scalars.first() is not None:
             raise ProjectNotFound()
