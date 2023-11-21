@@ -55,7 +55,7 @@ async def add_project(
     return project
 
 
-async def delete_project(db: AsyncSession, id: UUID):
+async def delete_project(db: AsyncSession, id: UUID) -> None:
     stmt = delete(ProjectDB).where(ProjectDB.id == id).returning(ProjectDB.id)
     async with db as session:
         scalars = await session.scalars(stmt)
