@@ -23,6 +23,7 @@ async def patch_project(
     image: str | None = None,
     description: str | None = None,
     name: str | None = None,
+    link: str | None = None,
 ) -> ProjectDB:
     stmt = select(ProjectDB).where(ProjectDB.id == id)
     async with db as session:
@@ -38,6 +39,8 @@ async def patch_project(
             project.description = description
         if name:
             project.name = name
+        if link:
+            project.link = link
 
         session.add(project)
         await session.commit()
@@ -45,10 +48,10 @@ async def patch_project(
 
 
 async def add_project(
-    db: AsyncSession, image: str, description: str, name: str
+    db: AsyncSession, image: str, description: str, name: str, link: str
 ) -> ProjectDB:
     async with db as session:
-        project = ProjectDB(image=image, description=description, name=name)
+        project = ProjectDB(image=image, description=description, name=name, link=link)
         session.add(project)
         await session.commit()
         await session.refresh(project)

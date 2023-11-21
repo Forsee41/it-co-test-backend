@@ -13,12 +13,14 @@ class ProjectResponse(Model):
     name: str
     description: str
     image: str
+    link: str
 
 
 class ProjectPost(Model):
     name: str
     description: str
     image: str
+    link: str
 
 
 class ProjectPostResponse(Model):
