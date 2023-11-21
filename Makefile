@@ -37,3 +37,6 @@ check:
 	pyright band_tracker tests
 	mypy band_tracker tests
 	echo "All checks passed"
+
+psql:
+	PGPASSWORD='postgres' psql -p 5432 -U postgres -h localhost -d postgres
