@@ -10,6 +10,7 @@ from it_co_test.db.dal import (
     add_project,
     delete_project,
     get_all_projects,
+    patch_project,
 )
 from it_co_test.db.session import session
 
@@ -39,5 +40,14 @@ async def delete_project_by_id(session: DBDependency, id: UUID) -> None:
     async with session:
         try:
             await delete_project(session, id=id)
+        except ProjectNotFound:
+            raise HTTPException(status_code=404, detail="Project not found")
+
+
+@router.put("/{id}")
+async def change_project(session: DBDependency, id: UUID, project: ProjectPost) -> None:
+    async with session:
+        try:
+            await patch_project(session, id=id, **project.__dict__)
         except ProjectNotFound:
             raise HTTPException(status_code=404, detail="Project not found")
