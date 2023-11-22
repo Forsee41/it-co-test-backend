@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  app:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - DB_URL=postgresql+asyncpg://postgres:postgres@db:5432/postgres
+    volumes:
+      - images_volume:/app/images
+    networks:
+      - app_network
+    ports:
+      - '8000:8000'
+    depends_on:
+      - db
+
+  db:
+    container_name: 'db'
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+    ports:
+      - '5432:5432'
+    networks:
+      - app_network
+
+networks:
+  app_network:
+    driver: bridge
+
+volumes:
+  images_volume:
