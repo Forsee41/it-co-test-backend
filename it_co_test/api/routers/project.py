@@ -31,7 +31,7 @@ async def add_new_project(
     session: DBDependency, project: ProjectPost
 ) -> ProjectPostResponse:
     async with session:
-        added_project = await add_project(session, **project.__dict__)
+        added_project = await add_project(session, image=False, **project.__dict__)
     return ProjectPostResponse(id=added_project.id)
 
 
