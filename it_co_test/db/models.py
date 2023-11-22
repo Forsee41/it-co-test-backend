@@ -2,7 +2,7 @@ from typing import Type
 from uuid import UUID, uuid4
 
 from sqlalchemy import UUID as UUID_DB
-from sqlalchemy import String
+from sqlalchemy import Boolean, String
 from sqlalchemy.orm import Mapped, declarative_base, mapped_column
 
 Base: Type = declarative_base()
@@ -16,5 +16,5 @@ class ProjectDB(Base):
     )
     name: Mapped[str] = mapped_column(String, nullable=False)
     description: Mapped[str] = mapped_column(String, nullable=False)
-    image: Mapped[str] = mapped_column(String, nullable=False)
+    image: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
     link: Mapped[str] = mapped_column(String, nullable=False)
