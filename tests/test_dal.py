@@ -12,7 +12,7 @@ from it_co_test.db.session import session
 
 
 async def test_add_project() -> None:
-    project = {"image": "image", "description": "description", "name": "name"}
+    project = {"image": False, "description": "description", "name": "name"}
     db = asynccontextmanager(session)
     async with db() as sess:
         assert sess
@@ -26,8 +26,8 @@ async def test_add_project() -> None:
 
 
 async def test_add_multiple_projects() -> None:
-    project1 = {"image": "image1", "description": "description1", "name": "name1"}
-    project2 = {"image": "image2", "description": "description2", "name": "name2"}
+    project1 = {"image": False, "description": "description1", "name": "name1"}
+    project2 = {"image": False, "description": "description2", "name": "name2"}
     db = asynccontextmanager(session)
     async with db() as sess:
         assert sess
@@ -47,8 +47,8 @@ async def test_add_multiple_projects() -> None:
 
 
 async def test_delete_project() -> None:
-    project1 = {"image": "image1", "description": "description1", "name": "name1"}
-    project2 = {"image": "image2", "description": "description2", "name": "name2"}
+    project1 = {"image": False, "description": "description1", "name": "name1"}
+    project2 = {"image": False, "description": "description2", "name": "name2"}
     db = asynccontextmanager(session)
     async with db() as sess:
         assert sess
@@ -63,13 +63,13 @@ async def test_delete_project() -> None:
 
 
 async def test_patch_all_fields() -> None:
-    project1 = {"image": "image1", "description": "description1", "name": "name1"}
+    project1 = {"image": False, "description": "description1", "name": "name1"}
     project1_changed = {
-        "image": "image3",
+        "image": False,
         "description": "description3",
         "name": "name3",
     }
-    project2 = {"image": "image2", "description": "description2", "name": "name2"}
+    project2 = {"image": False, "description": "description2", "name": "name2"}
     db = asynccontextmanager(session)
     async with db() as sess:
         assert sess
@@ -89,7 +89,7 @@ async def test_patch_all_fields() -> None:
 
 
 async def test_patch_single_field() -> None:
-    project = {"image": "image1", "description": "description1", "name": "name1"}
+    project = {"image": False, "description": "description1", "name": "name1"}
     db = asynccontextmanager(session)
     async with db() as sess:
         assert sess
