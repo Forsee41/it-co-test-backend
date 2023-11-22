@@ -12,14 +12,13 @@ class ProjectResponse(Model):
     id: UUID
     name: str
     description: str
-    image: str
+    image: bool
     link: str
 
 
 class ProjectPost(Model):
     name: str
     description: str
-    image: str
     link: str
 
 

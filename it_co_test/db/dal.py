@@ -20,7 +20,7 @@ async def get_all_projects(db: AsyncSession) -> list[ProjectDB]:
 async def patch_project(
     db: AsyncSession,
     id: UUID,
-    image: str | None = None,
+    image: bool | None = False,
     description: str | None = None,
     name: str | None = None,
     link: str | None = None,
@@ -48,7 +48,7 @@ async def patch_project(
 
 
 async def add_project(
-    db: AsyncSession, image: str, description: str, name: str, link: str
+    db: AsyncSession, image: bool, description: str, name: str, link: str
 ) -> ProjectDB:
     async with db as session:
         project = ProjectDB(image=image, description=description, name=name, link=link)
@@ -65,3 +65,15 @@ async def delete_project(db: AsyncSession, id: UUID) -> None:
         await session.commit()
         if scalars.first() is None:
             raise ProjectNotFound()
+
+
+async def register_image(db: AsyncSession, id: UUID) -> None:
+    stmt = select(ProjectDB).where(ProjectDB.id == id)
+    async with db as session:
+        scalars = await session.scalars(stmt)
+        project = scalars.first()
+        if project is None:
+            raise ProjectNotFound()
+        project.image = True
+        session.add(project)
+        await session.commit()
