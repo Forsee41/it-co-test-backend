@@ -25,6 +25,7 @@ def upgrade() -> None:
         existing_type=sa.VARCHAR(),
         type_=sa.Boolean(),
         existing_nullable=False,
+        postgresql_using="image::boolean",
     )
     # ### end Alembic commands ###
 
@@ -37,5 +38,6 @@ def downgrade() -> None:
         existing_type=sa.Boolean(),
         type_=sa.VARCHAR(),
         existing_nullable=False,
+        postgresql_using="image::text",
     )
     # ### end Alembic commands ###
