@@ -19,7 +19,7 @@ app.add_middleware(
 )
 
 
-root_router = APIRouter()
+root_router = APIRouter(prefix="/api")
 root_router.include_router(service.router, tags=["Service"])
 root_router.include_router(project.router, prefix="/project", tags=["Projects"])
 root_router.include_router(images.router, prefix="/image", tags=["Images"])
