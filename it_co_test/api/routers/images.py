@@ -44,7 +44,7 @@ async def put_image(
             await out_file.write(content)
 
 
-@router.put("/{id}")
+@router.delete("/{id}")
 async def delete_image(session: DBDependency, id: UUID) -> None:
     await delete_images_by_id(id)
     async with session:
